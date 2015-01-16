@@ -4,10 +4,52 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
+    <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, MyMain"
-            />
+            android:id="@+id/hostInput" android:layout_gravity="center_horizontal" android:hint="@string/hostname"
+            android:enabled="true"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/portInput" android:layout_gravity="center_horizontal" android:hint="@string/port"
+            android:enabled="true"/>
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_auth"
+                android:id="@+id/authCheckbox" android:layout_gravity="center_horizontal|left"
+                android:layout_centerVertical="true" android:layout_alignParentStart="true"
+                android:onClick="onCheckboxClicked"/>
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_ssl"
+                android:id="@+id/sslCheckbox" android:layout_gravity="center_horizontal"
+                android:layout_alignTop="@+id/authCheckbox" android:layout_toEndOf="@+id/authCheckbox"
+                android:layout_marginStart="25dp" android:onClick="onCheckboxClicked"/>
+    </RelativeLayout>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/usernameInput" android:layout_gravity="center_horizontal" android:hint="@string/username"
+            android:enabled="false" android:editable="true"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordInput" android:layout_gravity="center_horizontal" android:hint="@string/password"
+            android:enabled="false" android:editable="true"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:id="@+id/LogButton" android:layout_gravity="center_horizontal" android:onClick="onConnectClicked"/>
 </LinearLayout>
 
