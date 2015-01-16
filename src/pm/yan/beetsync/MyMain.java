@@ -6,10 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -22,6 +19,8 @@ public class MyMain extends Activity {
     private TextView port;
     private TextView username;
     private TextView password;
+    private boolean AuthEnable = false;
+    private boolean SSLEnable = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,10 +36,12 @@ public class MyMain extends Activity {
 
     public void onConnectClicked(View view) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        
-        String url ="http://www.google.com";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        String uri_protocol = SSLEnable ? "https://" : "http://";
+        String uri_port = SSLEnable ? "443" : port.getText().toString();
+        String url = uri_protocol + hostname.getText().toString() + ":" + uri_port;
+
+        StringRequest stringRequest = new StringRequestAuth(Request.Method.GET, url,
                 new Response.Listener() {
                     @Override
                     public void onResponse(Object response) {
@@ -51,7 +52,7 @@ public class MyMain extends Activity {
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, "error rquest");
             }
-        });
+        }, username.getText().toString(), password.getText().toString(), AuthEnable);
         queue.add(stringRequest);
     }
 
@@ -62,8 +63,10 @@ public class MyMain extends Activity {
             case R.id.authCheckbox:
                 username.setEnabled(checked);
                 password.setEnabled(checked);
+                AuthEnable = checked;
                 break;
             case R.id.sslCheckbox:
+                SSLEnable = checked;
                 break;
         }
     }
