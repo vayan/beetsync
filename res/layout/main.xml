@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/usernameInput" android:layout_gravity="center_horizontal" android:hint="@string/username"
-            android:enabled="false" android:editable="true"/>
+            android:enabled="false" android:editable="true" android:inputType="textNoSuggestions|text"/>
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
