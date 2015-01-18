@@ -1,19 +1,26 @@
 package pm.yan.beetsync;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.android.volley.*;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyMain extends Activity {
     /**
      * Called when the activity is first created.
      */
+    public  static String DATA_JSON = "";
     private static final String TAG = "MyMain";
     private TextView hostname;
     private TextView port;
@@ -39,20 +46,33 @@ public class MyMain extends Activity {
 
         String uri_protocol = SSLEnable ? "https://" : "http://";
         String uri_port = SSLEnable ? "443" : port.getText().toString();
-        String url = uri_protocol + hostname.getText().toString() + ":" + uri_port;
+        String url = uri_protocol + hostname.getText().toString() + ":" + uri_port + "/item";
 
-        StringRequest stringRequest = new StringRequestAuth(Request.Method.GET, url,
-                new Response.Listener() {
-                    @Override
-                    public void onResponse(Object response) {
-                        Log.v(TAG, "good rquest");
-                    }
-                }, new Response.ErrorListener() {
+        Response.Listener resp = new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                Log.v(TAG, "good rquest");
+                Intent intent = new Intent(MyMain.this, Download.class);
+                DATA_JSON = (String) response;
+                startActivity(intent);
+            }
+        };
+
+        Response.ErrorListener err_resp = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, "error rquest");
             }
-        }, username.getText().toString(), password.getText().toString(), AuthEnable);
+        };
+
+        StringRequest stringRequest = new StringRequestAuth(
+                Request.Method.GET,
+                url,
+                resp,
+                err_resp,
+                username.getText().toString(),
+                password.getText().toString(),
+                AuthEnable);
         queue.add(stringRequest);
     }
 
