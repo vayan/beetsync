@@ -12,8 +12,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/start_download"
                 android:id="@+id/buttonStartDownload" android:layout_gravity="center_horizontal"
-                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
-                android:onClick="onDownloadClicked"/>
+                android:onClick="onDownloadClicked" android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" android:layout_marginBottom="38dp"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,14 +34,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/progressBarAll" android:layout_gravity="center_horizontal"
-                android:layout_alignTop="@+id/progressBarSingle" android:layout_alignParentStart="true"
-                android:layout_marginTop="43dp" android:layout_marginLeft="15dp" android:layout_marginRight="15dp"/>
-        <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressBarSingle" android:layout_gravity="center_horizontal"
-                android:layout_above="@+id/buttonStartDownload"
-                android:layout_marginBottom="117dp" android:layout_marginLeft="15dp" android:layout_marginRight="15dp"/>
+                android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+                android:layout_above="@+id/buttonStartDownload" android:layout_centerHorizontal="true"
+                android:layout_marginBottom="66dp"/>
     </RelativeLayout>
 </LinearLayout>

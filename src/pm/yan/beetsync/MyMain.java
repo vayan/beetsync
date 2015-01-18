@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,6 +25,7 @@ public class MyMain extends Activity {
     private TextView port;
     private TextView username;
     private TextView password;
+    private ProgressBar connectProgress;
     private boolean AuthEnable = false;
     private boolean SSLEnable = false;
 
@@ -43,9 +45,11 @@ public class MyMain extends Activity {
         port = (TextView) findViewById(R.id.portInput);
         username = (TextView) findViewById(R.id.usernameInput);
         password = (TextView) findViewById(R.id.passwordInput);
+        connectProgress = (ProgressBar) findViewById(R.id.progressBarConnecting);
     }
 
     public void onConnectClicked(View view) {
+        connectProgress.setVisibility(View.VISIBLE);
         build_url();
         RequestQueue queue = Volley.newRequestQueue(this);
         Response.Listener resp = new Response.Listener() {
@@ -53,6 +57,7 @@ public class MyMain extends Activity {
             public void onResponse(Object response) {
                 DATA_JSON = (String) response; //too big to be passed with intent extra
                 Intent intent = new Intent(MyMain.this, Download.class);
+                connectProgress.setVisibility(View.INVISIBLE);
                 startActivity(intent);
             }
         };
@@ -60,6 +65,7 @@ public class MyMain extends Activity {
         Response.ErrorListener err_resp = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                connectProgress.setVisibility(View.INVISIBLE);
                 //TODO: handle error
             }
         };

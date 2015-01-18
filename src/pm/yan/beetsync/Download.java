@@ -2,7 +2,6 @@ package pm.yan.beetsync;
 
 import android.app.Activity;
 import android.app.DownloadManager;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -54,9 +53,6 @@ public class Download extends Activity {
 
         totalItems.setText(totalitems);
         totalSize.setText(totalsize);
-
-
-
     }
 
     public void onDownloadClicked(View view) {
