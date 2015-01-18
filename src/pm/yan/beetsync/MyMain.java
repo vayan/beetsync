@@ -3,7 +3,6 @@ package pm.yan.beetsync;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -16,9 +15,6 @@ import com.android.volley.toolbox.Volley;
 
 
 public class MyMain extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
     public static String DATA_JSON = "";
     public static String BASE_URL = "";
     public static String UNAME = "";
@@ -31,12 +27,18 @@ public class MyMain extends Activity {
     private boolean AuthEnable = false;
     private boolean SSLEnable = false;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onCheckboxClicked(findViewById(R.id.authCheckbox));
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        
+
         hostname = (TextView) findViewById(R.id.hostInput);
         port = (TextView) findViewById(R.id.portInput);
         username = (TextView) findViewById(R.id.usernameInput);
@@ -44,18 +46,13 @@ public class MyMain extends Activity {
     }
 
     public void onConnectClicked(View view) {
+        build_url();
         RequestQueue queue = Volley.newRequestQueue(this);
-
-        String uri_protocol = SSLEnable ? "https://" : "http://";
-        String uri_port = SSLEnable ? "443" : port.getText().toString();
-        BASE_URL = uri_protocol + hostname.getText().toString() + ":" + uri_port + "/item";
-
         Response.Listener resp = new Response.Listener() {
             @Override
             public void onResponse(Object response) {
-                Log.v(TAG, "good rquest");
+                DATA_JSON = (String) response; //too big to be passed with intent extra
                 Intent intent = new Intent(MyMain.this, Download.class);
-                DATA_JSON = (String) response;
                 startActivity(intent);
             }
         };
@@ -63,7 +60,7 @@ public class MyMain extends Activity {
         Response.ErrorListener err_resp = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "error rquest");
+                //TODO: handle error
             }
         };
 
@@ -79,6 +76,12 @@ public class MyMain extends Activity {
                 PASS,
                 AuthEnable);
         queue.add(stringRequest);
+    }
+
+    public void build_url() {
+        String uri_protocol = SSLEnable ? "https://" : "http://";
+        String uri_port = SSLEnable ? "443" : port.getText().toString();
+        BASE_URL = uri_protocol + hostname.getText().toString() + ":" + uri_port + "/item";
     }
 
     public void onCheckboxClicked(View view) {

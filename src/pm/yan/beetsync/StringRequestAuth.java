@@ -14,7 +14,6 @@ public class StringRequestAuth extends StringRequest {
     private String username;
     private String password;
 
-
     public StringRequestAuth(int method, String url, Response.Listener<String> listener, Response.ErrorListener errorListener, String user, String pass, boolean authEnable) {
         super(method, url, listener, errorListener);
         username = authEnable ? user : "";

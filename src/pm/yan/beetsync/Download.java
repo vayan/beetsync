@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import org.json.JSONArray;
@@ -15,14 +14,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URL;
+
 
 /**
  * Created by yann on 18/1/2015.
  */
 public class Download extends Activity {
-
     private static final String TAG = "Download";
     private TextView totalItems;
     private TextView totalSize;
@@ -33,10 +30,7 @@ public class Download extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
         String data = MyMain.DATA_JSON;
-
-
 
         try {
             JSONObject obj = new JSONObject(data);
@@ -76,14 +70,17 @@ public class Download extends Activity {
             JSONObject object = null;
             try {
                 object = items.getJSONObject(n);
+                String name = object.getString("title")+"-"+object.getString("artist");
                 Uri url_file = Uri.parse(MyMain.BASE_URL + "/" + Integer.toString(object.getInt("id")) + "/file");
                 DownloadManager.Request rq = new DownloadManager.Request(url_file);
                 rq.addRequestHeader("Authorization", String.format("Basic %s", Base64.encodeToString(
                         String.format("%s:%s", MyMain.UNAME, MyMain.PASS).getBytes(), Base64.DEFAULT)));
+                rq.setDestinationInExternalPublicDir(
+                        downloaddir.toString(),
+                        name + "." + object.getString("format"));
+                rq.setTitle("Downloading " + name);
+                rq.setDescription("Downloading " + name);
                 rq.allowScanningByMediaScanner();
-                rq.setTitle("BeetSync App");
-                rq.setDescription("Downloading " + object.getString("title") + "of " + object.getString("artist"));
-                rq.setDestinationInExternalPublicDir(downloaddir.toString(), object.getString("title")+object.getString("artist")+"."+object.getString("format"));
                 rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
                 dl.enqueue(rq);
             } catch (JSONException e) {
