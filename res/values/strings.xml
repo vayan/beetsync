@@ -9,6 +9,6 @@
     <string name="password">Password</string>
     <string name="connect">Connect</string>
     <string name="start_download">Start Download</string>
-    <string name="q_progress_text">Queing the downloads</string>
+    <string name="q_progress_text">Queuing the downloads</string>
     <string name="dl_progress_text">Download progress</string>
 </resources>
