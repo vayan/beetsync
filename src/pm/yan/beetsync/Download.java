@@ -3,20 +3,15 @@ package pm.yan.beetsync;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-
 
 /**
  * Created by yann on 18/1/2015.
@@ -25,9 +20,10 @@ public class Download extends Activity {
     private static final String TAG = "Download";
     private TextView totalItems;
     private TextView totalSize;
+    private Button ButtonStartDownload;
     private ProgressBar dlprogress;
     private JSONArray items;
-    private String path = Environment.DIRECTORY_MUSIC; //TODO: let the people choose you nazi
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,54 +45,28 @@ public class Download extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        ProgressBar connectProgress = (ProgressBar) findViewById(R.id.progressBarConnecting);
+        connectProgress.setVisibility(View.INVISIBLE);
         setContentView(R.layout.download);
 
+        ButtonStartDownload = (Button) findViewById(R.id.buttonStartDownload);
         totalItems = (TextView) findViewById(R.id.textTotalItems);
         totalSize = (TextView) findViewById(R.id.textTotalSize);
         dlprogress = (ProgressBar) findViewById(R.id.progressBarAll);
 
         dlprogress.setMax(items.length());
-
         totalItems.setText(totalitems);
-
-
-
         totalSize.setText(totalsize);
     }
 
     public void onDownloadClicked(View view) {
-        File downloaddir = new File(path+"/beets/");
-        downloaddir.mkdir();
-
-        DownloadManager dl = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        ButtonStartDownload.setEnabled(false);
 
         BcastReceiver onDownloadComplete = new BcastReceiver(dlprogress);
-
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        for(int n = 0; n < items.length(); n++)
-        {
-            JSONObject object = null;
-            try {
-                object = items.getJSONObject(n);
-                String name = object.getString("title")+" - "+object.getString("artist");
-                Uri url_file = Uri.parse(MyMain.BASE_URL + "/" + Integer.toString(object.getInt("id")) + "/file");
-                DownloadManager.Request rq = new DownloadManager.Request(url_file);
-                rq.addRequestHeader("Authorization", String.format("Basic %s", Base64.encodeToString(
-                        String.format("%s:%s", MyMain.UNAME, MyMain.PASS).getBytes(), Base64.DEFAULT)));
-                rq.setDestinationInExternalPublicDir(
-                        downloaddir.toString(),
-                        name + "." + object.getString("format"));
-                rq.setTitle("Downloading " + name);
-                rq.setDescription("Downloading " + name);
-                rq.allowScanningByMediaScanner();
-                rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-                dl.enqueue(rq);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        new QueueDownloadTask(this).execute(items);
+
         Log.d(TAG, "out of queuing loop");
     }
 

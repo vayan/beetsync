@@ -57,7 +57,6 @@ public class MyMain extends Activity {
             public void onResponse(Object response) {
                 DATA_JSON = (String) response; //too big to be passed with intent extra
                 Intent intent = new Intent(MyMain.this, Download.class);
-                connectProgress.setVisibility(View.INVISIBLE);
                 startActivity(intent);
             }
         };
