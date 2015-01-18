@@ -2,11 +2,14 @@ package pm.yan.beetsync;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +25,7 @@ public class Download extends Activity {
     private static final String TAG = "Download";
     private TextView totalItems;
     private TextView totalSize;
+    private ProgressBar dlprogress;
     private JSONArray items;
     private String path = Environment.DIRECTORY_MUSIC; //TODO: let the people choose you nazi
 
@@ -50,8 +54,14 @@ public class Download extends Activity {
 
         totalItems = (TextView) findViewById(R.id.textTotalItems);
         totalSize = (TextView) findViewById(R.id.textTotalSize);
+        dlprogress = (ProgressBar) findViewById(R.id.progressBarAll);
+
+        dlprogress.setMax(items.length());
 
         totalItems.setText(totalitems);
+
+
+
         totalSize.setText(totalsize);
     }
 
@@ -61,12 +71,16 @@ public class Download extends Activity {
 
         DownloadManager dl = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
+        BcastReceiver onDownloadComplete = new BcastReceiver(dlprogress);
+
+        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
         for(int n = 0; n < items.length(); n++)
         {
             JSONObject object = null;
             try {
                 object = items.getJSONObject(n);
-                String name = object.getString("title")+"-"+object.getString("artist");
+                String name = object.getString("title")+" - "+object.getString("artist");
                 Uri url_file = Uri.parse(MyMain.BASE_URL + "/" + Integer.toString(object.getInt("id")) + "/file");
                 DownloadManager.Request rq = new DownloadManager.Request(url_file);
                 rq.addRequestHeader("Authorization", String.format("Basic %s", Base64.encodeToString(
@@ -83,6 +97,7 @@ public class Download extends Activity {
                 e.printStackTrace();
             }
         }
+        Log.d(TAG, "out of queuing loop");
     }
 
     private String calculateSize() throws JSONException {
