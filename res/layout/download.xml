@@ -37,5 +37,26 @@
                 android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
                 android:layout_above="@+id/buttonStartDownload" android:layout_centerHorizontal="true"
                 android:layout_marginBottom="66dp"/>
+        <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarQ" android:layout_above="@+id/progressBarAll"
+                android:layout_centerHorizontal="true" android:layout_marginBottom="26dp"
+                android:layout_marginLeft="15dp" android:layout_marginRight="15dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/q_progress_text"
+                android:id="@+id/textQprogress"
+                android:layout_above="@+id/progressBarQ" android:layout_centerHorizontal="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/dl_progress_text"
+                android:id="@+id/testdlProgress"
+                android:layout_above="@+id/progressBarAll" android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 </LinearLayout>

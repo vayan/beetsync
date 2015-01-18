@@ -22,6 +22,7 @@ public class Download extends Activity {
     private TextView totalSize;
     private Button ButtonStartDownload;
     private ProgressBar dlprogress;
+    private ProgressBar qprogress;
     private JSONArray items;
 
 
@@ -29,6 +30,7 @@ public class Download extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.download);
         String data = MyMain.DATA_JSON;
 
         try {
@@ -38,23 +40,22 @@ public class Download extends Activity {
             e.printStackTrace();
         }
 
-        String totalitems = Integer.toString(items.length()) + " Items";
+        String totalitems = Integer.toString(items.length()) + " Musics";
         String totalsize = "0 Mo";
         try {
             totalsize = calculateSize() + " Mo";
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ProgressBar connectProgress = (ProgressBar) findViewById(R.id.progressBarConnecting);
-        connectProgress.setVisibility(View.INVISIBLE);
-        setContentView(R.layout.download);
 
         ButtonStartDownload = (Button) findViewById(R.id.buttonStartDownload);
         totalItems = (TextView) findViewById(R.id.textTotalItems);
         totalSize = (TextView) findViewById(R.id.textTotalSize);
         dlprogress = (ProgressBar) findViewById(R.id.progressBarAll);
+        qprogress = (ProgressBar) findViewById(R.id.progressBarQ);
 
         dlprogress.setMax(items.length());
+        qprogress.setMax(items.length());
         totalItems.setText(totalitems);
         totalSize.setText(totalsize);
     }
@@ -65,9 +66,7 @@ public class Download extends Activity {
         BcastReceiver onDownloadComplete = new BcastReceiver(dlprogress);
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        new QueueDownloadTask(this).execute(items);
-
-        Log.d(TAG, "out of queuing loop");
+        new QueueDownloadTask(this, qprogress).execute(items);
     }
 
     private String calculateSize() throws JSONException {

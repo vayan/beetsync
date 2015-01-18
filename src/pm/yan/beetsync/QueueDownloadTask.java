@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Base64;
+import android.widget.ProgressBar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,10 +17,12 @@ import java.io.File;
  * Created by yann on 18/1/2015.
  */
 public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, Void> {
-    Context mcontext;
+    private Context mcontext;
+    private ProgressBar qprogress;
 
-    public QueueDownloadTask(Context mcontext) {
+    public QueueDownloadTask(Context mcontext, ProgressBar qprogress) {
         this.mcontext = mcontext;
+        this.qprogress = qprogress;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, Void> {
                 rq.allowScanningByMediaScanner();
                 rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
                 dl.enqueue(rq);
+                qprogress.incrementProgressBy(1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
