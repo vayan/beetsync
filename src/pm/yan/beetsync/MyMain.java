@@ -13,14 +13,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 public class MyMain extends Activity {
     /**
      * Called when the activity is first created.
      */
-    public  static String DATA_JSON = "";
+    public static String DATA_JSON = "";
+    public static String BASE_URL = "";
+    public static String UNAME = "";
+    public static String PASS = "";
     private static final String TAG = "MyMain";
     private TextView hostname;
     private TextView port;
@@ -46,7 +48,7 @@ public class MyMain extends Activity {
 
         String uri_protocol = SSLEnable ? "https://" : "http://";
         String uri_port = SSLEnable ? "443" : port.getText().toString();
-        String url = uri_protocol + hostname.getText().toString() + ":" + uri_port + "/item";
+        BASE_URL = uri_protocol + hostname.getText().toString() + ":" + uri_port + "/item";
 
         Response.Listener resp = new Response.Listener() {
             @Override
@@ -65,13 +67,16 @@ public class MyMain extends Activity {
             }
         };
 
+        UNAME =  username.getText().toString();
+        PASS = password.getText().toString();
+
         StringRequest stringRequest = new StringRequestAuth(
                 Request.Method.GET,
-                url,
+                BASE_URL,
                 resp,
                 err_resp,
-                username.getText().toString(),
-                password.getText().toString(),
+                UNAME,
+                PASS,
                 AuthEnable);
         queue.add(stringRequest);
     }

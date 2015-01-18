@@ -12,7 +12,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/start_download"
                 android:id="@+id/buttonStartDownload" android:layout_gravity="center_horizontal"
-                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"/>
+                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
+                android:onClick="onDownloadClicked"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
