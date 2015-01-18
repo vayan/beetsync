@@ -34,6 +34,7 @@ public class MyMain extends Activity {
     protected void onResume() {
         super.onResume();
         onCheckboxClicked(findViewById(R.id.authCheckbox));
+        connectProgress.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class MyMain extends Activity {
         username = (TextView) findViewById(R.id.usernameInput);
         password = (TextView) findViewById(R.id.passwordInput);
         connectProgress = (ProgressBar) findViewById(R.id.progressBarConnecting);
+        connectProgress.setVisibility(View.INVISIBLE);
     }
 
     public void onConnectClicked(View view) {
@@ -58,7 +60,6 @@ public class MyMain extends Activity {
                 DATA_JSON = (String) response; //too big to be passed with intent extra
                 Intent intent = new Intent(MyMain.this, Download.class);
                 startActivity(intent);
-                connectProgress.setVisibility(View.INVISIBLE);
             }
         };
 

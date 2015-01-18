@@ -47,8 +47,8 @@ public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, Void> {
                 rq.setDestinationInExternalPublicDir(
                         downloaddir.toString(),
                         name + "." + object.getString("format"));
-                rq.setTitle("Downloading " + name);
-                rq.setDescription("Downloading " + name);
+                rq.setTitle(name);
+                rq.setDescription("Beetsync download " + name);
                 rq.allowScanningByMediaScanner();
                 rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
                 dl.enqueue(rq);
