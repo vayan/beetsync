@@ -1,1 +1,4 @@
-git clone https://android.googlesource.com/platform/frameworks/volley
+#DEP
+
+##Maven :
+`com.mcxiaoke.volley:library:1.0.6`
