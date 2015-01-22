@@ -59,7 +59,7 @@ public class Download extends Activity {
         qprogress.setMax(items.length());
         totalItems.setText(totalitems);
         totalSize.setText(totalsize);
-        onDownloadComplete = new BcastReceiver(dlprogress);
+        onDownloadComplete = new BcastReceiver(dlprogress, this);
     }
 
     @Override
@@ -76,7 +76,8 @@ public class Download extends Activity {
 
     public void onDownloadClicked(View view) {
         ButtonStartDownload.setEnabled(false);
-        new QueueDownloadTask(this, qprogress).execute(items);
+        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        new QueueDownloadTask(this, qprogress, dlprogress).execute(items);
     }
 
     private String calculateSize() throws JSONException {

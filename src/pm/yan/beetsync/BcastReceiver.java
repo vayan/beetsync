@@ -13,15 +13,19 @@ import android.widget.ProgressBar;
 public class BcastReceiver extends BroadcastReceiver {
     private static final String TAG = "Broad";
     private ProgressBar pbar;
+    private Context mcontext;
 
-    public BcastReceiver(ProgressBar pbar) {
+    public BcastReceiver(ProgressBar pbar, Context mcontext) {
+        this.mcontext = mcontext;
         this.pbar = pbar;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Long dwnId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-        Log.d(TAG, "receive broadcast");
-        pbar.incrementProgressBy(1);
+
+        new WatchDownloadTask(mcontext, pbar).execute();
+
+        //pbar.incrementProgressBy(1);
     }
 }

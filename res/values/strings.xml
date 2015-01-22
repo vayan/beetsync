@@ -8,7 +8,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="connect">Connect</string>
-    <string name="start_download">Start Download</string>
+    <string name="start_download">Start download new musics</string>
     <string name="q_progress_text">Queuing all the downloads</string>
     <string name="dl_progress_text">Total download progress</string>
     <string name="default_hostname">192.168.0.1</string>
