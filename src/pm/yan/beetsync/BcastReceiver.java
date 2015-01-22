@@ -15,6 +15,7 @@ public class BcastReceiver extends BroadcastReceiver {
     private ProgressBar pbar;
     private Context mcontext;
 
+
     public BcastReceiver(ProgressBar pbar, Context mcontext) {
         this.mcontext = mcontext;
         this.pbar = pbar;
@@ -24,8 +25,9 @@ public class BcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Long dwnId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
 
-        new WatchDownloadTask(mcontext, pbar, false).execute();
-
-        //pbar.incrementProgressBy(1);
+        if (Download.dl_ids.contains(dwnId)) {
+            Log.d(TAG, "id present in the list ! download finished");
+            pbar.incrementProgressBy(1);
+        }
     }
 }

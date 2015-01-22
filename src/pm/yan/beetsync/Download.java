@@ -3,6 +3,7 @@ package pm.yan.beetsync;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +14,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yann on 18/1/2015.
  */
 public class Download extends Activity {
     private static final String TAG = "Download";
+    public static List<Long> dl_ids = new ArrayList<>();
     private TextView totalItems;
     private TextView totalSize;
     private Button ButtonStartDownload;
@@ -31,6 +36,7 @@ public class Download extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "App created");
 
         setContentView(R.layout.download);
         String data = MyMain.DATA_JSON;
@@ -64,29 +70,50 @@ public class Download extends Activity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "App restart");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "App start");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "App stop");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "App resumed");
+        new WatchDownloadTask(this, dlprogress, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(TAG, "App paused");
         unregisterReceiver(onDownloadComplete);
     }
 
     public void onCancelClicked(View view) {
+        Log.d(TAG, "Interupt clicked");
+        new WatchDownloadTask(this, dlprogress, true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         QueueTask.cancel(true);
         qprogress.setProgress(0);
-
-        new WatchDownloadTask(this, dlprogress, true).execute();
     }
 
     public void onDownloadClicked(View view) {
         ButtonStartDownload.setEnabled(false);
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         QueueTask = new QueueDownloadTask(this, qprogress, dlprogress);
-        QueueTask.execute(items);
+        QueueTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items);
     }
 
     private String calculateSize() throws JSONException {
@@ -97,6 +124,6 @@ public class Download extends Activity {
             totalSize += object.getDouble("size");
         }
         Double mosize = (totalSize / 1024) / 1024;
-        return mosize.toString();
+        return Integer.toString(mosize.intValue());
     }
 }

@@ -24,13 +24,12 @@ public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, List<Long>>
     private Context mcontext;
     private ProgressBar qprogress;
     private ProgressBar dlprogress;
-    public static List<Long> dl_ids;
+
 
     public QueueDownloadTask(Context mcontext, ProgressBar qprogress, ProgressBar dlprogress) {
         this.mcontext = mcontext;
         this.qprogress = qprogress;
         this.dlprogress = dlprogress;
-        dl_ids = new ArrayList<Long>();
     }
 
     @Override
@@ -63,8 +62,8 @@ public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, List<Long>>
                     rq.setDescription("Beetsync download " + name);
                     rq.allowScanningByMediaScanner();
                     rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-                    rq.setVisibleInDownloadsUi(false);
-                    dl_ids.add(dl.enqueue(rq));
+                    rq.setVisibleInDownloadsUi(true); //TODO: false in release
+                    Download.dl_ids.add(dl.enqueue(rq));
                 }
                 publishProgress(n);
             } catch (JSONException e) {
@@ -72,7 +71,7 @@ public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, List<Long>>
             }
         }
         publishProgress(items.length());
-        return dl_ids;
+        return  Download.dl_ids;
     }
 
     @Override
