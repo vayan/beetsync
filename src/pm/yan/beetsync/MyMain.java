@@ -102,6 +102,13 @@ public class MyMain extends Activity {
                 break;
             case R.id.sslCheckbox:
                 SSLEnable = checked;
+                if (checked) {
+                    port.setText("443");
+                    port.setEnabled(false);
+                } else {
+                    port.setText("");
+                    port.setEnabled(true);
+                }
                 break;
         }
     }

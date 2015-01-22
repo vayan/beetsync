@@ -4,64 +4,74 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/hostInput" android:layout_gravity="center_horizontal" android:hint="@string/hostname"
-            android:enabled="true" android:editable="true" android:inputType="textNoSuggestions|textUri"
-            android:text="@string/default_hostname"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberSigned"
-            android:ems="10"
-            android:id="@+id/portInput" android:layout_gravity="center_horizontal" android:hint="@string/port"
-            android:enabled="true" android:editable="true" android:text="@string/default_port"/>
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
-        <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enable_auth"
-                android:id="@+id/authCheckbox" android:layout_gravity="center_horizontal|left"
-                android:layout_centerVertical="true" android:layout_alignParentStart="true"
-                android:onClick="onCheckboxClicked" android:enabled="true"/>
-        <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enable_ssl"
-                android:id="@+id/sslCheckbox" android:layout_gravity="center_horizontal"
-                android:layout_alignTop="@+id/authCheckbox" android:layout_toEndOf="@+id/authCheckbox"
-                android:layout_marginStart="25dp" android:onClick="onCheckboxClicked" android:enabled="true"/>
-    </RelativeLayout>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/usernameInput" android:layout_gravity="center_horizontal" android:hint="@string/username"
-            android:enabled="false" android:editable="true" android:inputType="textNoSuggestions|text"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/passwordInput" android:layout_gravity="center_horizontal" android:hint="@string/password"
-            android:enabled="false" android:editable="true"/>
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent" android:padding="10dp">
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/connect"
                 android:id="@+id/LogButton" android:layout_gravity="center_horizontal" android:onClick="onConnectClicked"
-                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"/>
+                android:layout_below="@+id/progressBarConnecting" android:layout_alignParentStart="true"
+                android:layout_marginTop="36dp"/>
         <ProgressBar
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/progressBarConnecting" android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" android:visibility="invisible"/>
+                android:id="@+id/progressBarConnecting"
+                android:visibility="invisible"
+                android:layout_marginTop="25dp" android:layout_below="@+id/passwordInput"
+                android:layout_centerHorizontal="true"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/passwordInput" android:layout_gravity="center_horizontal" android:hint="@string/password"
+                android:enabled="false" android:editable="true"
+                android:layout_below="@+id/usernameInput" android:layout_alignParentStart="true"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/usernameInput" android:layout_gravity="center_horizontal" android:hint="@string/username"
+                android:enabled="false" android:editable="true" android:inputType="textNoSuggestions|text"
+                android:layout_below="@+id/relativeLayout" android:layout_alignParentStart="true"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/portInput" android:layout_centerHorizontal="true"
+                android:id="@+id/relativeLayout">
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_auth"
+                    android:id="@+id/authCheckbox" android:layout_gravity="center_horizontal|left"
+                    android:layout_centerVertical="true" android:layout_alignParentStart="true"
+                    android:onClick="onCheckboxClicked" android:enabled="true"/>
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_ssl"
+                    android:id="@+id/sslCheckbox" android:layout_gravity="center_horizontal"
+                    android:layout_alignTop="@+id/authCheckbox" android:layout_toEndOf="@+id/authCheckbox"
+                    android:layout_marginStart="25dp" android:onClick="onCheckboxClicked" android:enabled="true"/>
+        </RelativeLayout>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/portInput" android:layout_gravity="center_horizontal" android:hint="@string/port"
+                android:enabled="true" android:editable="true" android:text="@string/default_port"
+                android:layout_below="@+id/hostInput" android:layout_alignParentStart="true"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hostInput" android:layout_gravity="center_horizontal" android:hint="@string/hostname"
+                android:enabled="true" android:editable="true" android:inputType="textNoSuggestions|textUri"
+                android:text="@string/default_hostname"
+                android:layout_alignParentTop="true" android:layout_alignParentStart="true"
+                android:layout_marginTop="64dp"/>
     </RelativeLayout>
 </LinearLayout>
 

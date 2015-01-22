@@ -4,7 +4,7 @@
     <string name="hostname">Hostname</string>
     <string name="port">Port</string>
     <string name="enable_auth">Enable Auth</string>
-    <string name="enable_ssl">Enable SSL/TSL</string>
+    <string name="enable_ssl">Enable TLS/SSL</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="connect">Connect</string>

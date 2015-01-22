@@ -6,72 +6,69 @@
 
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent" android:padding="10dp">
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/start_download"
                 android:id="@+id/buttonStartDownload" android:layout_gravity="center_horizontal"
-                android:onClick="onDownloadClicked" android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true" android:layout_marginBottom="38dp"/>
+                android:onClick="onDownloadClicked"
+                android:layout_below="@+id/progressBarAll" android:layout_alignEnd="@+id/buttonCancel"
+                android:layout_marginTop="33dp"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/textTotalItems" android:layout_gravity="center_horizontal"
-                android:layout_alignParentTop="true" android:layout_alignStart="@+id/textTotalSize"
-                android:layout_marginTop="31dp" android:text="0 Item"/>
+                android:layout_marginTop="30dp" android:text="0 Item" android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/buttonReDownloadAll"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0 Ko"
                 android:id="@+id/textTotalSize" android:layout_gravity="center_horizontal"
-                android:layout_below="@+id/textTotalItems" android:layout_centerHorizontal="true"
-                android:layout_marginTop="31dp"/>
+                android:layout_alignTop="@+id/textTotalItems" android:layout_alignEnd="@+id/progressBarQ"/>
         <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/progressBarAll" android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
-                android:layout_above="@+id/buttonStartDownload" android:layout_centerHorizontal="true"
-                android:layout_marginBottom="66dp"/>
+                android:layout_below="@+id/testdlProgress" android:layout_centerHorizontal="true"/>
         <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/progressBarQ" android:layout_above="@+id/progressBarAll"
-                android:layout_centerHorizontal="true" android:layout_marginBottom="26dp"
-                android:layout_marginLeft="15dp" android:layout_marginRight="15dp"/>
+                android:id="@+id/progressBarQ"
+                android:layout_below="@+id/textQprogress" android:layout_centerHorizontal="true"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/q_progress_text"
                 android:id="@+id/textQprogress"
-                android:layout_above="@+id/progressBarQ" android:layout_centerHorizontal="true"/>
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/dl_progress_text"
                 android:id="@+id/testdlProgress"
-                android:layout_above="@+id/progressBarAll" android:layout_centerHorizontal="true"/>
+                android:layout_marginTop="39dp" android:layout_below="@+id/progressBarQ"
+                android:layout_centerHorizontal="true"/>
         <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_re_download_all"
-                android:id="@+id/buttonReDownloadAll" android:layout_centerVertical="true"
-                android:layout_above="@+id/textQprogress" android:layout_alignLeft="@+id/progressBarQ"
-                android:layout_marginBottom="10dp"/>
+                android:id="@+id/buttonReDownloadAll"
+                android:enabled="false" android:layout_below="@+id/textTotalItems"
+                android:layout_alignStart="@+id/progressBarQ" android:layout_marginTop="63dp"/>
         <Button style="?android:attr/buttonStyleSmall" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:text="@string/button_cancel" android:id="@+id/buttonCancel"
-                android:layout_alignEnd="@+id/progressBarQ"
-                android:layout_toEndOf="@+id/textQprogress" android:layout_above="@+id/textQprogress"
-                android:layout_alignRight="@+id/progressBarQ" android:enabled="true"
-                android:layout_marginBottom="10dp" android:onClick="onCancelClicked"
-                android:nestedScrollingEnabled="false"/>
+                android:enabled="true"
+                android:onClick="onCancelClicked"
+                android:nestedScrollingEnabled="false" android:layout_alignTop="@+id/buttonReDownloadAll"
+                android:layout_alignEnd="@+id/textTotalSize"/>
     </RelativeLayout>
 </LinearLayout>
