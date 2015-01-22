@@ -15,10 +15,12 @@ import java.util.List;
 public class WatchDownloadTask extends AsyncTask<Void, Integer, Void> {
     private Context mcontext;
     private ProgressBar dl_progress;
+    private Boolean interupt;
 
-    public WatchDownloadTask(Context mcontext, ProgressBar dl_progress) {
+    public WatchDownloadTask(Context mcontext, ProgressBar dl_progress, Boolean interupt) {
         this.mcontext = mcontext;
         this.dl_progress = dl_progress;
+        this.interupt = interupt;
     }
 
     @Override
@@ -29,15 +31,20 @@ public class WatchDownloadTask extends AsyncTask<Void, Integer, Void> {
         if (dl_ids.size() > 0) {
             Integer finished = 0;
             for (Long id : dl_ids) {
-                DownloadManager.Query query = new DownloadManager.Query();
-                query.setFilterById(id);
-                Cursor c = dl.query(query);
-                if (c.moveToFirst()) {
-                    int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                    if (DownloadManager.STATUS_SUCCESSFUL == columnIndex) {
-                        finished++;
+                if (interupt) {
+                    dl.remove(id);
+                } else {
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(id);
+                    Cursor c = dl.query(query);
+                    if (c.moveToFirst()) {
+                        int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                        if (DownloadManager.STATUS_SUCCESSFUL == columnIndex) {
+                            finished++;
+                        }
                     }
                 }
+
             }
             publishProgress(finished);
         }

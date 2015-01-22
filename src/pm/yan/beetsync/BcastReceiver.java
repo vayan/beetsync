@@ -24,7 +24,7 @@ public class BcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Long dwnId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
 
-        new WatchDownloadTask(mcontext, pbar).execute();
+        new WatchDownloadTask(mcontext, pbar, false).execute();
 
         //pbar.incrementProgressBy(1);
     }

@@ -25,6 +25,7 @@ public class Download extends Activity {
     private ProgressBar qprogress;
     private JSONArray items;
     private BcastReceiver onDownloadComplete;
+    private QueueDownloadTask QueueTask;
 
 
     @Override
@@ -74,10 +75,18 @@ public class Download extends Activity {
         unregisterReceiver(onDownloadComplete);
     }
 
+    public void onCancelClicked(View view) {
+        QueueTask.cancel(true);
+        qprogress.setProgress(0);
+
+        new WatchDownloadTask(this, dlprogress, true).execute();
+    }
+
     public void onDownloadClicked(View view) {
         ButtonStartDownload.setEnabled(false);
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        new QueueDownloadTask(this, qprogress, dlprogress).execute(items);
+        QueueTask = new QueueDownloadTask(this, qprogress, dlprogress);
+        QueueTask.execute(items);
     }
 
     private String calculateSize() throws JSONException {
