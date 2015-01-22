@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.ProgressBar;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +18,7 @@ import java.io.File;
  * Created by yann on 18/1/2015.
  */
 public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, Void> {
+    private static final String TAG = "Q Donwload";
     private Context mcontext;
     private ProgressBar qprogress;
 
@@ -40,19 +42,24 @@ public class QueueDownloadTask extends AsyncTask<JSONArray, Integer, Void> {
             try {
                 object = items.getJSONObject(n);
                 String name = object.getString("title")+" - "+object.getString("artist");
-                Uri url_file = Uri.parse(MyMain.BASE_URL + "/" + Integer.toString(object.getInt("id")) + "/file");
-                DownloadManager.Request rq = new DownloadManager.Request(url_file);
-                rq.addRequestHeader("Authorization", String.format("Basic %s", Base64.encodeToString(
-                        String.format("%s:%s", MyMain.UNAME, MyMain.PASS).getBytes(), Base64.DEFAULT)));
-                rq.setDestinationInExternalPublicDir(
-                        downloaddir.toString(),
-                        name + "." + object.getString("format"));
-                rq.setTitle(name);
-                rq.setDescription("Beetsync download " + name);
-                rq.allowScanningByMediaScanner();
-                rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-                dl.enqueue(rq);
-                qprogress.incrementProgressBy(1);
+                String file_name = name + "." + object.getString("format");
+                File file = mcontext.getFileStreamPath(downloaddir.toString() + file_name);
+                if(!file.exists()) {
+                    Uri url_file = Uri.parse(MyMain.BASE_URL + "/" + Integer.toString(object.getInt("id")) + "/file");
+                    DownloadManager.Request rq = new DownloadManager.Request(url_file);
+                    if (MyMain.SSLEnable) {
+                        rq.addRequestHeader("Authorization", String.format("Basic %s", Base64.encodeToString(
+                                String.format("%s:%s", MyMain.UNAME, MyMain.PASS).getBytes(), Base64.DEFAULT)));
+                    }
+                    rq.setDestinationInExternalPublicDir(downloaddir.toString(), file_name);
+                    rq.setTitle(name);
+                    rq.setDescription("Beetsync download " + name);
+                    rq.allowScanningByMediaScanner();
+                    rq.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+                    rq.setVisibleInDownloadsUi(false);
+                    dl.enqueue(rq);
+                    qprogress.incrementProgressBy(1);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

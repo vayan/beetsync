@@ -26,8 +26,8 @@ public class MyMain extends Activity {
     private TextView username;
     private TextView password;
     private ProgressBar connectProgress;
-    private boolean AuthEnable = false;
-    private boolean SSLEnable = false;
+    public static boolean AuthEnable = false;
+    public static boolean SSLEnable = false;
 
 
     @Override
