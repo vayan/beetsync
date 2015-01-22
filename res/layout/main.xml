@@ -8,14 +8,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/hostInput" android:layout_gravity="center_horizontal" android:hint="@string/hostname"
-            android:enabled="true" android:editable="true" android:inputType="textNoSuggestions|textUri"/>
+            android:enabled="true" android:editable="true" android:inputType="textNoSuggestions|textUri"
+            android:text="@string/default_hostname"/>
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="10"
             android:id="@+id/portInput" android:layout_gravity="center_horizontal" android:hint="@string/port"
-            android:enabled="true" android:editable="true"/>
+            android:enabled="true" android:editable="true" android:text="@string/default_port"/>
     <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
