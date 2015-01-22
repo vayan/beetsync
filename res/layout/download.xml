@@ -58,5 +58,19 @@
                 android:text="@string/dl_progress_text"
                 android:id="@+id/testdlProgress"
                 android:layout_above="@+id/progressBarAll" android:layout_centerHorizontal="true"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_re_download_all"
+                android:id="@+id/buttonReDownloadAll" android:layout_centerVertical="true"
+                android:layout_above="@+id/textQprogress" android:layout_alignLeft="@+id/progressBarQ"
+                android:layout_marginBottom="10dp"/>
+        <Button style="?android:attr/buttonStyleSmall" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="@string/button_cancel" android:id="@+id/buttonCancel"
+                android:layout_alignEnd="@+id/progressBarQ"
+                android:layout_toEndOf="@+id/textQprogress" android:layout_above="@+id/textQprogress"
+                android:layout_alignRight="@+id/progressBarQ" android:enabled="false"
+                android:layout_marginBottom="10dp"/>
     </RelativeLayout>
 </LinearLayout>
